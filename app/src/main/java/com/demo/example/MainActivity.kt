@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity(), NoteRVAdapter.NoteClickInterface {
             }
         }
 
+
+
         createNotificationChannel()
         notesRV.layoutManager = LinearLayoutManager(this)
         val noteRVAdapter = NoteRVAdapter(this, this)
