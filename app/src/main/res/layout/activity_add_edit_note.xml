@@ -49,16 +49,28 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_below="@id/btnSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        tools:listitem="@layout/spinner_item_layout"
+        android:layout_centerInParent="true" />
+
+
     <!--button for saving and updating a note-->
+
     <EditText
         android:id="@+id/noteEdt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/saveBtn"
-        android:layout_below="@id/btnSelectDate"
+        android:layout_below="@id/spinner"
         android:layout_margin="10dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="32dp"
         android:background="@color/black_shade_1"
         android:gravity="start|top"
         android:hint="Enter your Note Details"

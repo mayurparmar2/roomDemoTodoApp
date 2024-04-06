@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_add_edit_note.btnSelectDate
 import kotlinx.android.synthetic.main.activity_add_edit_note.noteEdt
 import kotlinx.android.synthetic.main.activity_add_edit_note.noteTitleEdt
 import kotlinx.android.synthetic.main.activity_add_edit_note.saveBtn
+import kotlinx.android.synthetic.main.activity_add_edit_note.spinner
 import kotlinx.android.synthetic.main.activity_add_edit_note.txtDateTime
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,9 +32,20 @@ class AddEditNoteActivity : AppCompatActivity() {
     lateinit var viewModal: NoteViewModal
     var noteID = -1;
 
+    val categories = listOf("Home","Office","Market")
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_note)
+
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_item_layout, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+
         mContext = this
         viewModal =
             ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
@@ -85,8 +99,7 @@ class AddEditNoteActivity : AppCompatActivity() {
                         val updatedNote = com.demo.example.room.Note(
                             noteTitle,
                             noteDescription,
-                            currentDateAndTime
-                        )
+                            currentDateAndTime,0,spinner.selectedItemPosition)
                         updatedNote.id = noteID
                         viewModal.updateNote(updatedNote)
                         Toast.makeText(applicationContext, "Note Updated..", Toast.LENGTH_LONG).show()
@@ -99,7 +112,7 @@ class AddEditNoteActivity : AppCompatActivity() {
                             com.demo.example.room.Note(
                                 noteTitle,
                                 noteDescription,
-                                currentDateAndTime
+                                currentDateAndTime,0,spinner.selectedItemPosition
                             )
                         )
                         Toast.makeText(applicationContext, "$noteTitle Added", Toast.LENGTH_LONG).show()
