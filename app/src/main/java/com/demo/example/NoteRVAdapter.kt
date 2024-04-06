@@ -12,14 +12,13 @@ import com.demo.example.room.Note
 class NoteRVAdapter(val context: Context,val noteClickInterface: NoteClickInterface)
     : RecyclerView.Adapter<NoteRVAdapter.ViewHolder>() {
 
+
     interface NoteClickInterface {
         fun onDeleteIconClick(note: Note)
         fun onNoteClick(note: Note)
     }
-
-
     private val allNotes = ArrayList<Note>()
-
+    private var filteredList: List<Note> = allNotes.toList()
 
   inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
       val noteTV = itemView.findViewById<TextView>(R.id.idTVNote)

@@ -11,7 +11,6 @@ import android.os.Handler
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -57,10 +56,16 @@ class AddEditNoteActivity : AppCompatActivity() {
             // on below line we are setting data to edit text.
             val noteTitle = intent.getStringExtra("noteTitle")
             val noteDescription = intent.getStringExtra("noteDescription")
+            val categories = intent.getIntExtra("categories",-1)
+            mDateTime = intent.getStringExtra("selectTime")
             noteID = intent.getIntExtra("noteId", -1)
+
+
+            txtDateTime.setText(mDateTime)
             saveBtn.setText("Update Note")
             noteTitleEdt.setText(noteTitle)
             noteEdt.setText(noteDescription)
+            spinner.setSelection(categories)
         } else {
             saveBtn.setText("Save Note")
         }
@@ -89,41 +94,54 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         saveBtn.setOnClickListener(object : OnClickListener {
             override fun onClick(v: View?) {
-                val noteTitle = noteTitleEdt.text.toString()
-                val noteDescription = noteEdt.text.toString()
-
-                if (noteType.equals("Edit")) {
-                    if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
-                        val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
-                        val currentDateAndTime: String = sdf.format(Date())
-                        val updatedNote = com.demo.example.room.Note(
-                            noteTitle,
-                            noteDescription,
-                            currentDateAndTime,0,spinner.selectedItemPosition)
-                        updatedNote.id = noteID
-                        viewModal.updateNote(updatedNote)
-                        Toast.makeText(applicationContext, "Note Updated..", Toast.LENGTH_LONG).show()
-                    }
+                if (mDateTime == null || mDateTime!!.isEmpty()) {
+                    // Show validation message if time is not selected
+                    Toast.makeText(mContext, "Please select a date and time", Toast.LENGTH_SHORT).show()
                 } else {
-                    if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
-                        val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
-                        val currentDateAndTime: String = sdf.format(Date())
-                        viewModal.addNote(
-                            com.demo.example.room.Note(
+                    val noteTitle = noteTitleEdt.text.toString()
+                    val noteDescription = noteEdt.text.toString()
+
+                    if (noteType.equals("Edit")) {
+                        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+                            val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
+                            val currentDateAndTime: String = sdf.format(Date())
+                            val updatedNote = com.demo.example.room.Note(
                                 noteTitle,
                                 noteDescription,
-                                currentDateAndTime,0,spinner.selectedItemPosition
+                                currentDateAndTime, mDateTime!!, spinner.selectedItemPosition
                             )
-                        )
-                        Toast.makeText(applicationContext, "$noteTitle Added", Toast.LENGTH_LONG).show()
+                            updatedNote.id = noteID
+                            viewModal.updateNote(updatedNote)
+                            Toast.makeText(applicationContext, "Note Updated..", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    } else {
+                        if (noteTitle.isNotEmpty() && noteDescription.isNotEmpty()) {
+                            val sdf = SimpleDateFormat("dd MMM, yyyy - HH:mm")
+                            val currentDateAndTime: String = sdf.format(Date())
+                            viewModal.addNote(
+                                com.demo.example.room.Note(
+                                    noteTitle,
+                                    noteDescription,
+                                    currentDateAndTime, mDateTime!!, spinner.selectedItemPosition
+                                )
+                            )
+                            Toast.makeText(
+                                applicationContext,
+                                "$noteTitle Added",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
+//
+//                    val notificationTime =
+//                        System.currentTimeMillis() + 10 * 1000 // 10 seconds from now
+//                    scheduleNotification(notificationTime)
+
+//                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    finish()
                 }
 
-                val notificationTime = System.currentTimeMillis() + 10 * 1000 // 10 seconds from now
-                scheduleNotification(notificationTime)
-
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                finish()
             }
         })
     }
@@ -232,4 +250,11 @@ class AddEditNoteActivity : AppCompatActivity() {
         alarmManager?.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
     }
 
+
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//        startActivity(Intent(applicationContext, MainActivity::class.java))
+//        finish()
+//
+//    }
 }

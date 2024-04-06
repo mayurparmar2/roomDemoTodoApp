@@ -2,11 +2,15 @@ package com.demo.example
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
@@ -53,32 +57,32 @@ class MainActivity : AppCompatActivity(), NoteRVAdapter.NoteClickInterface {
         idFAB.setOnClickListener {
             val intent = Intent(this@MainActivity, AddEditNoteActivity::class.java)
             startActivity(intent)
-            this.finish()
+//            this.finish()
         }
 
 
     }
 
     override fun onDeleteIconClick(note: Note) {
-//        val builder: AlertDialog.Builder = AlertDialog.Builder(
-//            ContextThemeWrapper(
-//                this,
-//               R.style.myDialog
-//            ))
-//        builder.setTitle(title)
-//        builder.setMessage("message")
-//        builder.setPositiveButton("Yes",
-//            DialogInterface.OnClickListener { dialog, which ->
-//                viewModal.deleteNote(note)
-//                Toast.makeText(this, "${note.noteTitle} Deleted", Toast.LENGTH_LONG).show()
-//                dialog.dismiss()
-//            })
-//        builder.setNegativeButton("No",
-//            DialogInterface.OnClickListener { dialog, which ->
-//                dialog.dismiss()
-//            })
-//        val dialog: AlertDialog = builder.create()
-//        dialog.show()
+        val builder: AlertDialog.Builder = AlertDialog.Builder(
+            ContextThemeWrapper(
+                this,
+               R.style.myDialog
+            ))
+        builder.setTitle(title)
+        builder.setMessage("message")
+        builder.setPositiveButton("Yes",
+            DialogInterface.OnClickListener { dialog, which ->
+                viewModal.deleteNote(note)
+                Toast.makeText(this, "${note.noteTitle} Deleted", Toast.LENGTH_LONG).show()
+                dialog.dismiss()
+            })
+        builder.setNegativeButton("No",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     override fun onNoteClick(note: Note) {
@@ -86,9 +90,11 @@ class MainActivity : AppCompatActivity(), NoteRVAdapter.NoteClickInterface {
         intent.putExtra("noteType", "Edit")
         intent.putExtra("noteTitle", note.noteTitle)
         intent.putExtra("noteDescription", note.noteDescription)
+        intent.putExtra("categories", note.categories)
+        intent.putExtra("selectTime", note.selectTime)
         intent.putExtra("noteId", note.id)
         startActivity(intent)
-        this.finish()
+//        this.finish()
     }
 
 
@@ -99,9 +105,7 @@ class MainActivity : AppCompatActivity(), NoteRVAdapter.NoteClickInterface {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("channel_id", name, importance)
             channel.description = description
-            val notificationManager = getSystemService(
-                NotificationManager::class.java
-            )
+            val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
     }

@@ -1,13 +1,14 @@
 package com.demo.example.room
 
-
 import android.content.Context
 import androidx.room.Database
+import androidx.room.Entity
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+
 @Database(entities = arrayOf(Note::class), version = 1)
-public abstract class NoteDatabase : RoomDatabase() {
+abstract class NoteDatabase : RoomDatabase() {
 
     abstract fun getNotesDao(): NotesDao
 
