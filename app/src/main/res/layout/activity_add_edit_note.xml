@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black_shade_1"
+    tools:context=".AddEditNoteActivity">
+
+    <!--edit text for note title-->
+    <EditText
+        android:id="@+id/noteTitleEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Enter Note Title"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+<!--    <DatePicker-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        style="@style/TextAppearance.AppCompat.Headline"-->
+<!--        />-->
+
+    <!--edit text for note description-->
+
+    <ImageView
+        android:id="@+id/btnSelectDate"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_datetime"
+        android:layout_below="@id/noteTitleEdt"
+        android:layout_alignParentEnd="true"
+        android:text="Select Date and Time" />
+
+    <TextView
+        android:id="@+id/txtDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/noteTitleEdt"
+        android:layout_alignParentStart="true"
+
+        android:layout_margin="10dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginEnd="153dp"
+        android:layout_toStartOf="@+id/btnSelectDate"
+        android:text="Time"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <!--button for saving and updating a note-->
+    <EditText
+        android:id="@+id/noteEdt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/saveBtn"
+        android:layout_below="@id/btnSelectDate"
+        android:layout_margin="10dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/black_shade_1"
+        android:gravity="start|top"
+        android:hint="Enter your Note Details"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@color/black"
+        android:text="Button"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
